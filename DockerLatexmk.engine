@@ -1,0 +1,15 @@
+#!/bin/bash
+
+DIR=$(dirname "$1")
+FILE=$(basename "$1")
+
+docker run --rm \
+  -v "$DIR":/work \
+  -w /work \
+  my-latex \
+  latexmk \
+    -e '$latex=q/platex/' \
+    -e '$bibtex=q/pbibtex/' \
+    -e '$makeindex=q/mendex/' \
+    -e '$dvipdf=q/dvipdfmx -o %D %S/' \
+    -pdfdvi "$FILE"
